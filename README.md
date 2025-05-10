@@ -7,7 +7,8 @@ Inspired by [qoli/eisonAI](https://github.com/qoli/eisonAI).
 **Note:** This is an experimental app made for fun and may have bugs. It is not recommended for production use at this stage.
 
 ## ✨ Features
-
+![Resizable panel](/Screenshots/Light%20mode%20&%20Resize.png)
+![Dark mode and settings page](/Screenshots/Dark%20mode%20&%20Settings.png)
 *   **Intelligent Content Extraction**: Uses `Readability.js` to cleanly extract the main content from web pages.
 *   **Versatile LLM Integration**:
     *   Connects to Gemini, OpenRouter, and other OpenAI-compatible LLM APIs.
@@ -27,6 +28,7 @@ Inspired by [qoli/eisonAI](https://github.com/qoli/eisonAI).
     *   Modify the JSON to add custom API endpoints (e.g., local LLMs, Grok) or fine-tune existing ones, then upload it back.
 *   **Cross-Device Sync (Optional)**: Supports syncing settings and conversation history across devices using a Redis database REST API (e.g., Upstash).
 *   **User-Friendly Interface**:
+    *   Use Shadow DOM to prevent influence of host style.
     *   Modern, responsive UI with glassmorphism effects.
     *   Draggable floating button to toggle the panel.
     *   Resizable panel.
