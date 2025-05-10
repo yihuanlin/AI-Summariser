@@ -1,0 +1,688 @@
+/* Base styles */
+:root {
+  --summariser-primary: rgba(255, 255, 255, 0.7);
+  --summariser-background: rgba(255, 255, 255, 0.2);
+  --summariser-border: rgba(255, 255, 255, 0.3);
+  --summariser-text: #333;
+  --summariser-highlight: #3498db;
+  --summariser-shadow: rgba(0, 0, 0, 0.1);
+  --summariser-animations-duration: 300ms;
+  --summariser-input-radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --summariser-primary: rgba(30, 41, 59, 0.7);
+    --summariser-background: rgba(15, 23, 42, 0.5);
+    --summariser-border: rgba(51, 65, 85, 0.3);
+    --summariser-text: #e2e8f0;
+    --summariser-highlight: #1e40af;
+    --summariser-shadow: rgba(0, 0, 0, 0.3);
+  }
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Glassmorphism styles */
+.summariser-glassmorphism {
+  background: var(--summariser-background);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--summariser-border);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px var(--summariser-shadow);
+  color: var(--summariser-text);
+  transition: all var(--summariser-animations-duration) ease;
+}
+
+/* Container for all elements */
+.summariser-container {
+  background: transparent;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+}
+
+/* Panel styles */
+.summariser-panel {
+  position: fixed;
+  color: var(--summariser-text);
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(var(--summariser-primary, 255, 255, 255, 0.7), 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10000;
+}
+
+.platform-ios .summariser-panel {
+  background: var(--summariser-primary);
+}
+
+/* Panel header */
+.summariser-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 25px 15px 15px 15px;
+  border-bottom: 1px solid var(--summariser-border);
+}
+
+.summariser-panel-header-wrap {
+  position: sticky;
+  top: 0;
+}
+
+.platform-ios .summariser-panel-header {
+  padding-top: 50px;
+}
+
+.platform-ios .summariser-settings-header {
+  padding-top: 35px;
+}
+
+.platform-ios .summariser-input-container {
+  padding-bottom: 30px;
+}
+
+.summariser-panel-title {
+  font-weight: 600;
+  margin: 0;
+  cursor: pointer;
+}
+
+.summariser-panel-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.summariser-panel-button {
+  background: transparent;
+  border: none;
+  color: var(--summariser-text);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+  position: relative;
+}
+
+.summariser-website-button.summariser-active {
+  background-color: var(--summariser-highlight);
+  color: white;
+  border-radius: 4px;
+}
+
+.summariser-thought-process {
+  padding: 10px;
+  background-color: var(--summariser-border);
+  border-left: 3px solid var(--summariser-highlight);
+  font-style: italic;
+  font-size: 0.9em;
+  display: none;
+  border-radius: 12px 12px 0 0;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.summariser-thought-process.visible {
+  display: block;
+}
+
+.summariser-panel-button:not(.summariser-active):hover {
+  background-color: var(--summariser-border);
+}
+
+/* Copy content button */
+.summariser-panel-button-circle {
+  background: var(--summariser-background);
+  color: var(--summariser-text);
+  border: 1px solid var(--summariser-border);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+  margin-right: 5px;
+}
+
+.summariser-panel-button-circle:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Model dropdown */
+.summariser-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 240px;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: var(--summariser-input-radius);
+  z-index: 10002;
+  display: none;
+  animation: summariser-fade-in 0.2s ease;
+  pointer-events: auto;
+  overflow-y: auto;
+}
+
+.summariser-dropdown.summariser-visible {
+  display: block;
+}
+
+.summariser-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--summariser-border);
+}
+
+.summariser-model-option {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  border-radius: var(--summariser-input-radius);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summariser-model-option:last-child {
+  margin-bottom: 0;
+}
+
+.summariser-model-option:hover {
+  background: var(--summariser-border);
+  transform: translateX(2px);
+}
+
+.summariser-model-option.summariser-active {
+  background: var(--summariser-highlight);
+  color: white;
+}
+
+.summariser-model-provider {
+  font-size: 0.8em;
+  opacity: 0.7;
+  margin-left: 5px;
+}
+
+/* Custom dropdown */
+.summariser-custom-dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.summariser-dropdown-selected {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: var(--summariser-input-radius);
+  border: 1px solid var(--summariser-border);
+  background: var(--summariser-primary);
+  color: var(--summariser-text);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  min-height: 38px;
+}
+
+.summariser-dropdown-selected:hover {
+  border-color: var(--summariser-highlight);
+}
+
+.summariser-dropdown-selected.summariser-active {
+  border-color: var(--summariser-highlight);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.summariser-dropdown-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: var(--summariser-input-radius);
+  z-index: 10003;
+  display: none;
+  animation: summariser-fade-in 0.2s ease;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.summariser-dropdown-options.summariser-visible {
+  display: block;
+}
+
+.summariser-dropdown-option {
+  padding: 8px 12px;
+  margin-bottom: 5px;
+  border-radius: var(--summariser-input-radius);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.summariser-dropdown-option:last-child {
+  margin-bottom: 0;
+}
+
+.summariser-dropdown-option:hover {
+  background: var(--summariser-border);
+  transform: translateX(2px);
+}
+
+.summariser-dropdown-option.summariser-active {
+  background: var(--summariser-highlight);
+  color: white;
+}
+
+/* Conversation area */
+.summariser-conversation {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.summariser-blurred {
+  filter: blur(5px);
+  pointer-events: none;
+  transition: filter 0.3s;
+}
+
+.summariser-message {
+  text-align: justify;
+  pointer-events: auto;
+  padding: 0 15px;
+  border-radius: 12px;
+  word-break: break-word;
+  line-height: 1.5;
+  position: relative;
+  white-space: pre-line;
+}
+
+.summariser-message-user {
+  padding: 15px;
+  align-self: flex-end;
+  background-color: var(--summariser-highlight);
+  color: white;
+}
+
+.summariser-message-ai {
+  align-self: flex-start;
+  background-color: var(--summariser-primary);
+}
+
+.summariser-message-ai code,
+.summariser-message-ai pre {
+  background: var(--summariser-background);
+  border-radius: 5px;
+}
+
+.summariser-message-ai p,
+.summariser-message-ai h1,
+.summariser-message-ai h2,
+.summariser-message-ai h3,
+.summariser-message-ai h4,
+.summariser-message-ai h5,
+.summariser-message-ai h6 {
+  margin-top: 0em;
+  margin-bottom: -0.5em;
+}
+
+.summariser-message-ai ul,
+.summariser-message-ai ol {
+  margin-top: -0.5em;
+  margin-bottom: -0.5em;
+  padding-left: 0.5em;
+}
+
+.summariser-message-ai li {
+  margin-left: 0.5em;
+  margin-top: -0.5em;
+  margin-bottom: -0.5em;
+}
+
+.summariser-message-ai> :not(.summariser-loading):first-child {
+  margin-top: 0.7em;
+}
+
+.summariser-message-ai> :not(.summariser-loading):nth-last-child(2) {
+  margin-bottom: 1em;
+}
+
+.summariser-message-actions {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  display: none;
+}
+
+.summariser-message:hover .summariser-message-actions {
+  display: flex;
+}
+
+.summariser-action-button {
+  background: transparent;
+  color: var(--summariser-text);
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  opacity: 0.7;
+}
+
+.summariser-action-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.summariser-action-button:hover {
+  opacity: 1;
+}
+
+/* Input area */
+.summariser-input-container {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid var(--summariser-border);
+  gap: 10px;
+}
+
+.summariser-input {
+  flex: 1;
+  padding: 11px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--summariser-border);
+  background: var(--summariser-primary);
+  resize: none;
+  outline: none;
+  color: var(--summariser-text);
+  transition: border-color 0.2s;
+  min-height: 24px;
+  max-height: 200px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.summariser-input:focus {
+  border-color: var(--summariser-highlight);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.summariser-send-button {
+  background-color: var(--summariser-highlight);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.summariser-send-button:hover {
+  transform: scale(1.05);
+}
+
+.summariser-send-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.summariser-stop-button {
+  background-color: #e74c3c;
+}
+
+/* Settings panel */
+.summariser-settings {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--summariser-primary);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  padding: 20px;
+  overflow-y: auto;
+  display: none;
+  z-index: 10001;
+}
+
+.summariser-settings.summariser-open {
+  display: block;
+  animation: summariser-fade-in 0.3s ease;
+}
+
+.summariser-settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  padding-top: 10px;
+  border-bottom: 1px solid var(--summariser-border);
+}
+
+.summariser-settings-group {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: var(--summariser-input-radius);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--summariser-border);
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.summariser-settings-group:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.summariser-settings-title {
+  font-weight: 600;
+  margin: 0 0 15px 0;
+  color: var(--summariser-highlight);
+}
+
+#api-provider-settings {
+  margin-bottom: 18px;
+}
+
+.summariser-settings-row {
+  margin-bottom: 18px;
+}
+
+.summariser-settings-row:last-child {
+  margin-bottom: 0;
+}
+
+.summariser-settings-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.summariser-input-text,
+.summariser-textarea {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: var(--summariser-input-radius);
+  border: 1px solid var(--summariser-border);
+  background: var(--summariser-primary);
+  color: var(--summariser-text);
+  font-family: inherit;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.summariser-textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.summariser-input-text:focus,
+.summariser-textarea:focus {
+  border-color: var(--summariser-highlight);
+  outline: none;
+}
+
+/* Range input styling */
+.summariser-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: var(--summariser-highlight);
+  border-radius: 4px;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.summariser-range:hover {
+  opacity: 1;
+}
+
+.summariser-range-value {
+  display: inline-block;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.summariser-api-key-group {
+  display: flex;
+  gap: 10px;
+}
+
+.summariser-api-key-group .summariser-input-text {
+  flex: 1;
+}
+
+#newConversationButton {
+  display: flex;
+}
+
+.summariser-button-small {
+  padding: 8px 12px;
+  background: var(--summariser-highlight);
+  color: white;
+  border: none;
+  border-radius: var(--summariser-input-radius);
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-size: 12px;
+}
+
+.summariser-button-small:hover {
+  transform: scale(1.03);
+}
+
+.summariser-button-small.summariser-active {
+  background: #e74c3c;
+}
+
+.summariser-close-button {
+  margin-left: auto;
+}
+
+/* Loading animation */
+.summariser-loading {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.summariser-loading::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--summariser-border);
+  border-radius: 50%;
+  border-left-color: var(--summariser-highlight);
+  animation: summariser-spin 1s linear infinite;
+}
+
+/* Toast notification */
+.summariser-toast {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--summariser-background);
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px var(--summariser-shadow);
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10010;
+  animation: summariser-fade-in 0.3s ease;
+}
+
+/* Animations */
+@keyframes summariser-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes summariser-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.summariser-fade-in {
+  animation: summariser-fade-in 0.3s ease;
+}
+
+@keyframes summariser-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.summariser-fade-out {
+  animation: summariser-fade-out 0.3s ease;
+}

@@ -1,0 +1,14 @@
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+.build/
+release/
+Packages/
+Package.pins
+Package.resolved
+.swiftpm
+.DS_Store
+.AppleDouble
+.LSOverride
+._*

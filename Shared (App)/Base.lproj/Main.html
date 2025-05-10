@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>Summariser</title>
+    <link rel="stylesheet" href="../Style.css">
+</head>
+
+<body>
+    <div class="summariser-container">
+        <div class="summariser-panel">
+            <div class="summariser-panel-header-wrap">
+                <div class="summariser-panel-header">
+                    <h3 class="summariser-panel-title">Summariser</h3>
+                    <div class="summariser-panel-controls">
+                        <!-- Include website content button -->
+
+                        <!-- History button -->
+                        <button class="summariser-panel-button" id="historyButton">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
+                            </svg>
+                        </button>
+
+                        <!-- History dropdown -->
+                        <div class="summariser-dropdown summariser-glassmorphism" id="historyDropdown">
+                            <div class="summariser-dropdown-header">
+                                <button class="summariser-button-small" id="newConversationButton">
+                                    <svg width="14" height="14" style="margin-right: 5px" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                                    </svg>
+                                    New Conversation
+                                </button>
+                                <button class="summariser-button-small" id="refreshButton">
+                                    <svg width="14" height="14" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M17.65 8.35C16.2 6.9 14.21 6 12 6c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 13h7V6l-2.35 2.35z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <!-- History items will be added dynamically -->
+                        </div>
+
+                        <!-- Upload file button -->
+                        <button class="summariser-panel-button" id="uploadButton">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z" />
+                            </svg>
+                        </button>
+
+                        <!-- Upload file dropdown -->
+                        <div class="summariser-dropdown summariser-glassmorphism" id="uploadDropdown"
+                            style="width: 180px;">
+                            <div class="summariser-model-option" data-upload-type="url">
+                                <span>Upload File From URL</span>
+                            </div>
+                            <div class="summariser-model-option" data-upload-type="device">
+                                <span>Upload File From Device</span>
+                            </div>
+                            <div class="summariser-model-option" data-upload-type="download-history">
+                                <span>Download Chat History</span>
+                            </div>
+                            <div class="summariser-model-option" data-upload-type="upload-history">
+                                <span>Upload Chat History</span>
+                            </div>
+                        </div>
+
+                        <!-- Settings button -->
+                        <button class="summariser-panel-button" id="settingsButton">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+                            </svg>
+                        </button>
+
+                        <!-- Close button (shown conditionally based on platform) -->
+                        <button class="summariser-panel-button-circle summariser-close-button" id="closeButton">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model dropdown -->
+            <div class="summariser-dropdown summariser-glassmorphism" id="modelDropdown">
+                <!-- Model options will be added dynamically -->
+            </div>
+
+            <!-- Conversation area -->
+            <div class="summariser-conversation" id="conversation"></div>
+
+            <!-- Input area -->
+            <div class="summariser-input-container">
+                <textarea class="summariser-input" id="input" placeholder="Ask about anything..." rows="1"></textarea>
+                <button class="summariser-send-button" id="sendButton">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Settings panel -->
+            <div class="summariser-settings" id="settings">
+                <div class="summariser-settings-header">
+                    <h3 style="margin: 0;">Settings</h3>
+                    <div class="summariser-settings-buttons" style="display: flex; align-items: center;">
+                        <button class="summariser-panel-button summariser-panel-button-circle" id="settingsSaveButton"
+                            title="Save settings" style="margin-right: 10px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+                            </svg>
+                        </button>
+                        <button class="summariser-panel-button summariser-panel-button-circle" id="settingsCloseButton">
+                            <svg width="18" height="18" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="summariser-settings-group">
+                    <!-- API settings group -->
+                    <h4 class="summariser-settings-title">API Settings</h4>
+                    <div id="api-provider-settings">
+                    </div>
+                    <div class="summariser-settings-row">
+                        <label class="summariser-settings-label">Redis API URL:</label>
+                        <div class="summariser-api-key-group">
+                            <input type="password" class="summariser-input-text" id="redis-api-url"
+                                placeholder="https://...">
+                            <button class="summariser-button-small" id="toggleRedisUrlButton">Show</button>
+                        </div>
+                    </div>
+
+                    <div class="summariser-settings-row">
+                        <label class="summariser-settings-label">Redis API Key:</label>
+                        <div class="summariser-api-key-group">
+                            <input type="password" class="summariser-input-text" id="redis-api-key"
+                                placeholder="Enter Redis API key">
+                            <button class="summariser-button-small" id="toggleRedisKeyButton">Show</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="summariser-settings-group">
+                    <!-- Prompt settings group -->
+                    <h4 class="summariser-settings-title">System Prompt Template</h4>
+                    <div class="summariser-settings-row">
+                        <label class="summariser-settings-label">Prompt Template:</label>
+                        <textarea class="summariser-textarea" id="promptTemplate"></textarea>
+                    </div>
+                </div>
+                <div class="summariser-settings-group">
+                    <!-- Generation settings group -->
+                    <h4 class="summariser-settings-title">Generation Settings</h4>
+                    <div class="summariser-settings-row">
+                        <label class="summariser-settings-label">Max Response Length</label>
+                        <div style="display: flex; align-items: center;">
+                            <input type="range" class="summariser-range" id="maxTokensInput" min="5000" max="100000"
+                                step="5000">
+                            <span class="summariser-range-value" id="maxTokensValue">65536</span>
+                        </div>
+                    </div>
+                    <div class="summariser-settings-row">
+                        <label class="summariser-settings-label">Temperature (Creativity)</label>
+                        <div style="display: flex; align-items: center;">
+                            <input type="range" class="summariser-range" id="tempInput" min="0" max="1" step="0.1">
+                            <span class="summariser-range-value" id="tempValue">0.7</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Interface settings group -->
+                <div class="summariser-settings-group">
+                    <h4 class="summariser-settings-title">Interface Settings</h4>
+                    <div class="summariser-settings-row">
+                        <label class="summariser-settings-label">Button Position:</label>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="summariser-button-small" id="leftButton" data-position="left">Left</button>
+                            <button class="summariser-button-small" id="rightButton"
+                                data-position="right">Right</button>
+                            <button class="summariser-button-small" id="hideButton" data-position="hide">Hide</button>
+                        </div>
+                    </div>
+
+                    <div class="summariser-settings-row" style="margin-top: 25px;">
+                        <button class="summariser-button-small" id="resetButton"
+                            style="background-color: #e74c3c;">Reset to
+                            Defaults</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file inputs -->
+    <input type="file" id="fileInput" style="display: none;" accept="image/*,.pdf,.doc,.docx,.txt">
+    <input type="file" id="historyFileInput" style="display: none;" accept=".json">
+
+    <script src="../Script.js"></script>
+</body>
+
+</html>
